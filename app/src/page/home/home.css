@@ -1,0 +1,56 @@
+.Home {
+    text-align: center;
+    min-height: 100vh;
+  }
+  
+  .Home-logo {
+    height: 40vmin;
+    pointer-events: none;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .Home-logo {
+      animation: App-logo-spin infinite 20s linear;
+    }
+  }
+  .Body{
+    color: #41AAC4;
+    padding: 10px;
+  }
+  p{
+    color: #41AAC4;
+    padding: 10px;
+  }
+  .Home-header {
+    background-color:  #41AAC4;
+    min-height: 5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+  }
+  .Button{
+  
+    display: block;
+    padding: 10px;
+  }
+  .button{
+    background-color: #41AAC4;
+  color: white;
+  font-size: 10px;
+  }
+  .Home-link {
+    color: #61dafb;
+  }
+  
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  

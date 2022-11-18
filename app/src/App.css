@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  min-height: 100vh;
 }
 
 .App-logo {
@@ -12,10 +13,17 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+.Body{
+  color: #41AAC4;
+  padding: 10px;
+}
+p{
+  color: #41AAC4;
+  padding: 10px;
+}
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background-color:  #41AAC4;
+  min-height: 8vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,7 +31,16 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+.Button{
 
+  display: block;
+  padding: 10px;
+}
+.button{
+  background-color: #41AAC4;
+color: white;
+font-size: 10px;
+}
 .App-link {
   color: #61dafb;
 }

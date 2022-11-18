@@ -1,0 +1,74 @@
+.Signin {
+    text-align: center;
+    min-height: 100vh;
+  }
+  
+  .Signin-logo {
+    height: 40vmin;
+    pointer-events: none;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .Signin-logo {
+      animation: App-logo-spin infinite 20s linear;
+    }
+  }
+  .Body{
+    color: #41AAC4;
+    padding: 10px;
+  }
+  p{
+    color: #41AAC4;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .icon1{
+text-align: left;
+margin-left:0px;
+padding: 5px;
+margin-right:80%;
+color: white;
+
+  }
+  .icon2{
+    text-align: right;
+    margin-right:0px;
+    padding: 5px;
+      }
+  .Signin-header {
+    background-color:  #41AAC4;
+    min-height: 5vh;
+   display: flex;
+   
+    
+    font-size: calc(15px + 2vmin);
+    color: white;
+  }
+  a{
+    text-decoration: none;
+    
+  }
+ .Enter{
+    
+    align-items: center;
+    text-align: center;
+    margin: 10px;
+ }
+  .Signin-link {
+    color: #61dafb;
+  }
+  .input{
+    width: 70%;
+    margin: 5px;
+  }
+  
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
