@@ -4,7 +4,7 @@ async function connect() {
     try {
         await mongoose.connect(`mongodb://${process.env.DB}`)
 
-        console.log('Connect successful!');
+        console.log(process.env.DB,'Connect successful!');
     }
     catch(err) {
 
