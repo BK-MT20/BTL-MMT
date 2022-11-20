@@ -205,3 +205,93 @@
     font-size: 18px;
   }
 }
+.homepage{
+  align-items: center;
+  .header{
+    h2{
+    padding:13px;
+    }
+    height: 8vh;
+    background-color:#28acd1;
+    align-items: center;
+    
+  }
+  .body{
+    text-align: center;
+    align-items: center;
+    color:#28acd1;
+    h1{
+      padding-top:20px ;
+      padding-bottom: 10px;
+      color:#28acd1;
+     
+    }
+    .logo{
+      font-size: 250px
+    }
+    p{
+      padding-bottom: 10px;
+    }
+    .button{
+      display: block;
+      justify-content: space-between;
+    }
+    .button2{
+      padding: 3px;
+    }
+    .button1{
+      background-color: #28acd1;
+      color:white;
+      
+     
+     
+    }
+    .login-form-button{
+      background-color: #28acd1;
+      color:white;
+    }
+    
+
+  }
+  
+  .button{
+    text-align: center;
+    align-items: center;
+  }
+  .end{
+    padding: 20px;
+  }
+  .signin-form{
+    
+    align-items: center;
+    text-align: center;
+    align-items: center;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 10px;
+   
+  }
+  .login-form{
+    align-items: center;
+   
+   
+  }
+  a{
+    text-decoration: none;
+  }
+  .signup-form{
+    align-items: center;
+    text-align: center;
+    
+    padding-left: 50px;
+    padding-right: 50px;
+   
+  }
+  .login-form-button{
+    background-color: #28acd1;
+    color:white;
+  }
+  .logo-signup{
+    font-size: 200px;
+  }
+}
