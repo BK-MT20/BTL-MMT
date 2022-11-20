@@ -1,8 +1,5 @@
+const User = require("../models/user.model");
 
-const User = require('../models/user.model')
+class CourseController {}
 
-class CourseController {
-    
-}
-
-module.exports = new CourseController
+module.exports = new CourseController();
