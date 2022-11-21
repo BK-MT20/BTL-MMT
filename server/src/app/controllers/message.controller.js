@@ -1,6 +1,7 @@
 const Message = require("../models/message.model");
 
 class MessageController {
+  // [POST] /api/message/newMessage
   newMessage = async (req, res) => {
     const newMessage = new Message(req.body);
 
@@ -11,6 +12,8 @@ class MessageController {
       res.status(500).json(err);
     }
   };
+  // [GET] /api/message/:conversationId
+
   getMessage = async (req, res) => {
     try {
       const messages = await Message.find({

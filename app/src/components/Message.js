@@ -1,5 +1,5 @@
 import React from 'react'
-import { format } from 'timeago.js'
+// import { format } from 'timeago.js'
 // import moment from 'moment'
 const Message = ({ own }) => {
   return (
@@ -12,7 +12,7 @@ const Message = ({ own }) => {
         />
         <p className="messageText">sdmfksdmfklsmflsdmls</p>
       </div>
-      <div className="messageBottom">{format()}</div>
+      {/* <div className="messageBottom">{format()}</div> */}
     </div>
   )
 }
