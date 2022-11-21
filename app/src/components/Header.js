@@ -2,34 +2,37 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { MessageOutlined, LogoutOutlined } from '@ant-design/icons'
 import { Avatar, Badge, Dropdown, Divider, Space, Menu } from 'antd'
-const menu = (
-  <Menu
-    items={[
-      {
-        key: '0',
-        label: (
-          <>
-            <div>
-              <p>
-                <span style={{ fontWeight: 'bold', paddingRight: '5px' }}>
-                  Logged in as: Hoang Phiem
-                </span>
-              </p>
-            </div>
-            <Divider />
-            <a onClick={() => {}} href="/login">
-              <Space>
-                <LogoutOutlined />
-                Logout
-              </Space>
-            </a>
-          </>
-        ),
-      },
-    ]}
-  />
-)
+import { UseLogout } from '../hooks'
+
 const Header = () => {
+  const logout = UseLogout()
+  const menu = (
+    <Menu
+      items={[
+        {
+          key: '0',
+          label: (
+            <>
+              <div>
+                <p>
+                  <span style={{ fontWeight: 'bold', paddingRight: '5px' }}>
+                    Logged in as: Hoang Phiem
+                  </span>
+                </p>
+              </div>
+              <Divider />
+              <a onClick={() => logout} href="/login">
+                <Space>
+                  <LogoutOutlined />
+                  Logout
+                </Space>
+              </a>
+            </>
+          ),
+        },
+      ]}
+    />
+  )
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">

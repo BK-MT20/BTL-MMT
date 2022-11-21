@@ -3,6 +3,11 @@ const authRouter = require("./auth");
 const conversationRouter = require("./conversation");
 const messageRouter = require("./message");
 function route(app) {
+  app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Accept");
+    next();
+  });
+
   app.use("/user", userRouter);
   app.use("/api/auth", authRouter);
   app.use("/api/conversation", conversationRouter);
