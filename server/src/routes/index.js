@@ -8,7 +8,7 @@ function route(app) {
     next();
   });
 
-  app.use("/user", userRouter);
+  app.use("/api", userRouter);
   app.use("/api/auth", authRouter);
   app.use("/api/conversation", conversationRouter);
   app.use("/api/message", messageRouter);

@@ -78,6 +78,9 @@
       flex-direction: column;
       justify-content: space-between;
       position: relative;
+      .empty {
+        margin-top: 150px;
+      }
       .chatBoxTop {
         height: 100%;
         overflow-y: scroll;
@@ -85,9 +88,6 @@
       }
       .chatBoxBottom {
         margin-top: 5px;
-        // display: flex;
-        // align-items: center;
-        // justify-content: space-between;
         .chatBoxBottomForm {
           display: flex;
           align-items: center;
@@ -136,6 +136,7 @@
   margin-top: 20px;
   &:hover {
     background-color: rgb(245, 243, 243);
+    border-radius: 20px;
   }
 
   .conversationImg {
@@ -169,6 +170,9 @@
 
 .messageTop {
   display: flex;
+  .messageImg-own {
+    display: none;
+  }
   .messageImg {
     width: 32px;
     height: 32px;
@@ -182,14 +186,15 @@
     background-color: #1877f2;
     color: white;
     max-width: 300px;
+    // display: flex;
+    // flex-direction: column;
   }
 }
 .messageBottom {
   font-size: 12px;
-  margin-top: 10px;
+  margin-top: 5px;
 }
-
-.message.own .messageText {
+.message.friend .messageText {
   background-color: rgb(245, 241, 241);
   color: black;
 }
