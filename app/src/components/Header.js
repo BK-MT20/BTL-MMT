@@ -6,33 +6,29 @@ import { UseLogout } from '../hooks'
 
 const Header = () => {
   const logout = UseLogout()
-  const menu = (
-    <Menu
-      items={[
-        {
-          key: '0',
-          label: (
-            <>
-              <div>
-                <p>
-                  <span style={{ fontWeight: 'bold', paddingRight: '5px' }}>
-                    Logged in as: Hoang Phiem
-                  </span>
-                </p>
-              </div>
-              <Divider />
-              <a onClick={() => logout} href="/login">
-                <Space>
-                  <LogoutOutlined />
-                  Logout
-                </Space>
-              </a>
-            </>
-          ),
-        },
-      ]}
-    />
-  )
+  const items = [
+    {
+      key: '0',
+      label: (
+        <>
+          <div>
+            <p>
+              <span style={{ fontWeight: 'bold', paddingRight: '5px' }}>
+                Logged in as: Hoang Phiem
+              </span>
+            </p>
+          </div>
+          <Divider />
+          <a onClick={() => logout} href="/login">
+            <Space>
+              <LogoutOutlined />
+              Logout
+            </Space>
+          </a>
+        </>
+      ),
+    },
+  ]
   return (
     <div className="topbarContainer">
       <div className="topbarLeft">
@@ -58,11 +54,7 @@ const Header = () => {
             </Link>
           </div>
         </div>
-        <Dropdown
-          overlay={menu}
-          // trigger={['click']}
-          placement="bottomLeft"
-        >
+        <Dropdown menu={{ items }} placement="bottomLeft">
           <Avatar
             src="https://joeschmoe.io/api/v1/random"
             alt=""

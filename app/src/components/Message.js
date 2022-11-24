@@ -1,18 +1,17 @@
 import React from 'react'
-// import { format } from 'timeago.js'
-// import moment from 'moment'
-const Message = ({ own }) => {
+import { format } from 'timeago.js'
+const Message = ({ message, own }) => {
   return (
-    <div className={own ? 'message own' : 'message'}>
+    <div className={own ? 'message own' : 'message friend'}>
       <div className="messageTop">
         <img
-          className="messageImg"
-          src="https://images.pexels.com/photos/3686769/pexels-photo-3686769.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+          className={own ? 'messageImg-own' : 'messageImg '}
+          src="https://ss-images.saostar.vn/wp700/pc/1613810558698/Facebook-Avatar_3.png"
           alt=""
         />
-        <p className="messageText">sdmfksdmfklsmflsdmls</p>
+        <p className="messageText">{message.text}</p>
       </div>
-      {/* <div className="messageBottom">{format()}</div> */}
+      <div className="messageBottom">{format(message.createdAt)}</div>
     </div>
   )
 }

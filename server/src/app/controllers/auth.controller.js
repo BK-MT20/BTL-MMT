@@ -85,6 +85,7 @@ class AuthController {
             maxAge: process.env.REFRESH_TOKEN_EXPIRESIN * 1000,
           })
           .send({
+            id: user.id,
             accessToken: accessToken,
             expiresIn: process.env.ACCESS_TOKEN_EXPIRESIN + "m",
           });
@@ -94,6 +95,7 @@ class AuthController {
       res.status(500).json(err);
     }
   };
+  // [POST] api/auth/signout
   signout = (req, res) => {
     res.clearCookie("rft");
     res.status(200).json("Loggout successfully !");

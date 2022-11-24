@@ -20,6 +20,11 @@ const User = new Schema(
       required: true,
       maxlength: 20,
     },
+    avartar: {
+      type: String,
+      default:
+        "https://ss-images.saostar.vn/wp700/pc/1613810558698/Facebook-Avatar_3.png",
+    },
     friends: [
       {
         id: { type: String, required: true },

@@ -26,7 +26,8 @@ const Login = () => {
           //   window.location.reload()
           // }
           const accessToken = res.data.accessToken
-          setAuth({ username, password, accessToken })
+          const _id = res.data.id
+          setAuth({ username, password, accessToken, _id })
           navigate(from, { replace: true })
           // window.location.reload()
         },

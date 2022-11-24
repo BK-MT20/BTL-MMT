@@ -1,14 +1,29 @@
+import { useEffect, useState } from 'react'
 import React from 'react'
+import axios from '../api'
 
-const Conversations = () => {
+const Conversations = ({ conversation, currentUser }) => {
+  const [user, setUser] = useState(null)
+  // console.log(conversation)
+  useEffect(() => {
+    const friendId = conversation.members.find((m) => m !== currentUser)
+
+    const getUser = async () => {
+      try {
+        const res = await axios.get('/getUser?userId=' + friendId)
+        // console.log(res.data)
+        setUser(res.data)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    getUser()
+  }, [currentUser, conversation])
+
   return (
     <div className="conversation">
-      <img
-        className="conversationImg"
-        src="https://images.pexels.com/photos/3686769/pexels-photo-3686769.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-        alt=""
-      />
-      <span className="conversationName">Hoang Phiem</span>
+      <img className="conversationImg" src={user?.avartar} alt="" />
+      <span className="conversationName">{user?.username}</span>
     </div>
   )
 }
