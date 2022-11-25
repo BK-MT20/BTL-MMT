@@ -19,6 +19,10 @@ const io = new Server(server, {
 });
 io.use(p2p);
 
+io.on("connection", (socket) => {
+  console.log("a user is connected.");
+});
+
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.json());

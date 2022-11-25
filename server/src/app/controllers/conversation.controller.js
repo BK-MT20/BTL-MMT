@@ -2,7 +2,6 @@ const Conversation = require("../models/conversation.model");
 class ConversationController {
   // [POST] /api/conversation/newConversation
   newConversation = async (req, res) => {
-    console.log(req);
     const newConversation = new Conversation({
       members: [
         req.body.user1Id,
@@ -23,8 +22,10 @@ class ConversationController {
 
   getConversations = async (req, res) => {
     try {
+      console.log("req", req.user);
+
       const conversation = await Conversation.find({
-        members: { $in: [req.params.userId] },
+        members: { $in: [req.user.id] },
       });
       res.status(200).json(conversation);
     } catch (err) {

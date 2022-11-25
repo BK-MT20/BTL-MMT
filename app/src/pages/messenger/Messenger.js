@@ -4,11 +4,12 @@ import { Form, Input, Button, Upload, Empty } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import { UseAuth } from '../../hooks'
 import axios from '../../api'
+import { io } from 'socket.io-client'
 const Messenger = () => {
   const [form] = Form.useForm()
   const { auth } = UseAuth()
   const [conversations, setConversations] = useState([])
-  const [searchConversation, setSeatchConversation] = useState([])
+  // const [searchConversation, setSeatchConversation] = useState([])
 
   const [currentChat, setcurrentChat] = useState(null)
   const [messages, setMessages] = useState(null)
@@ -16,17 +17,30 @@ const Messenger = () => {
   const scrollRef = useRef()
   const [search, setSearch] = useState(null)
   useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [])
+
+  useEffect(() => {
     const getConversations = async () => {
       await axios
         .get('/conversation/' + auth._id)
         .then((res) => {
-          setConversations(res.data)
-          setSeatchConversation(res.data)
+          const conversations = res.data
+          if (search) {
+            setConversations(
+              conversations.filter((co) =>
+                co.members.find((m) => m.toLowerCase().includes(search)),
+              ),
+            )
+          } else {
+            setConversations(res.data)
+          }
+          // setSeatchConversation(res.data)
         })
         .catch((error) => console.log(error))
     }
     getConversations()
-  }, [auth._id])
+  }, [search, auth._id])
 
   useEffect(() => {
     const getMessages = async () => {
@@ -58,26 +72,25 @@ const Messenger = () => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  useEffect(() => {
-    const getConversations = async () => {
-      await axios
-        .get('/conversation/' + auth._id)
-        .then((res) => {
-          setConversations(res.data)
-          setSeatchConversation(res.data)
-        })
-        .catch((error) => console.log(error))
-    }
-    if (search === null) {
-      getConversations()
-      return
-    }
-    setConversations(
-      searchConversation.filter((co) =>
-        co.members.find((m) => m.toLowerCase().includes(search)),
-      ),
-    )
-  }, [searchConversation, search, auth._id])
+  // useEffect(() => {
+  //   const getConversations = async () => {
+  //     await axios
+  //       .get('/conversation/' + auth._id)
+  //       .then((res) => {
+  //         setConversations(res.data)
+  //       })
+  //       .catch((error) => console.log(error))
+  //   }
+  //   if (search === null) {
+  //     getConversations()
+  //     return
+  //   }
+  //   setConversations(
+  //     conversations.filter((co) =>
+  //       co.members.find((m) => m.toLowerCase().includes(search)),
+  //     ),
+  //   )
+  // }, [ search, auth._id])
 
   return (
     <>
@@ -99,6 +112,7 @@ const Messenger = () => {
                 key={c._id}
                 onClick={() => {
                   setcurrentChat(c)
+                  // console.log(searchConversation)
                 }}
               >
                 <Conversations conversation={c} currentUser={auth._id} />
