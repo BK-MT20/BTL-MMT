@@ -70,19 +70,19 @@ class AuthController {
         );
         res
           .status(202)
-          // .cookie('act', accessToken, {
-          //     httpOnly: true,
-          //     sameSite: 'strict',
-          //     secure: false,
-          //     path: '/',
-          //     maxAge: process.env.ACCESS_TOKEN_EXPIRESIN*1000
-          // })
+          .cookie("act", accessToken, {
+            httpOnly: true,
+            sameSite: "strict",
+            secure: false,
+            path: "/",
+            maxAge: process.env.REFRESH_TOKEN_EXPIRESIN * 1000 * 60,
+          })
           .cookie("rft", refreshToken, {
             httpOnly: true,
             sameSite: "strict",
             secure: false,
             path: "/",
-            maxAge: process.env.REFRESH_TOKEN_EXPIRESIN * 1000,
+            maxAge: process.env.REFRESH_TOKEN_EXPIRESIN * 1000 * 60,
           })
           .send({
             id: user.id,
@@ -98,6 +98,7 @@ class AuthController {
   // [POST] api/auth/signout
   signout = (req, res) => {
     res.clearCookie("rft");
+    res.clearCookie("act");
     res.status(200).json("Loggout successfully !");
   };
 
@@ -129,6 +130,13 @@ class AuthController {
       );
       res
         .status(202)
+        .cookie("act", accessToken, {
+          httpOnly: true,
+          sameSite: "strict",
+          secure: false,
+          path: "/",
+          maxAge: process.env.ACCESS_TOKEN_EXPIRESIN * 1000,
+        })
         .cookie("rft", newRefreshToken, {
           httpOnly: true,
           sameSite: "strict",

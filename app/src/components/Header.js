@@ -19,7 +19,7 @@ const Header = () => {
             </p>
           </div>
           <Divider />
-          <a onClick={() => logout} href="/login">
+          <a onClick={() => logout()} href="/login">
             <Space>
               <LogoutOutlined />
               Logout
