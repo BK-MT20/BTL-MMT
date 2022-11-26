@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Header, Conversations, Message, ChatOnline } from '../../components'
 import { Form, Input, Button, Upload, Empty } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
-import { UseAuth } from '../../hooks'
+import { UseAuth, useSocket } from '../../hooks'
 import axios from '../../api'
 import { io } from 'socket.io-client'
+
 const Messenger = () => {
   const [form] = Form.useForm()
   const { auth } = UseAuth()
@@ -16,6 +17,9 @@ const Messenger = () => {
   const [newMessage, setNewMessage] = useState(null)
   const scrollRef = useRef()
   const [search, setSearch] = useState(null)
+
+  const socket = useSocket()
+
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [])
@@ -64,13 +68,20 @@ const Messenger = () => {
       const res = await axios.post('/message/newMessage', message)
       setMessages([...messages, res.data])
       setNewMessage('')
+      socket.emit('peer-msg', message)
     } catch (err) {
       console.log(err)
     }
   }
+ 
+
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+    socket.on('peer-msg', function (data) {
+      console.log('on peer-msg', data);
+    })
+
+    return socket.off('peer-msg')
+  }, [])
 
   // useEffect(() => {
   //   const getConversations = async () => {
