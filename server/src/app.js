@@ -16,11 +16,27 @@ app.use(
 );
 const io = new Server(server, {
   cors: "http://localhost:3000",
+  maxHttpBufferSize: 1e8
 });
-io.use(p2p);
+// io.use(p2p);
+const Message = require('../src/app/models/message.model')
 
 io.on("connection", (socket) => {
   console.log("a user is connected.");
+
+  socket.on('peer-msg', async function (data) {
+    console.log('peer-msg', data);
+    socket.broadcast.emit('peer-msg', data);
+  })
+
+  socket.on('peer-files', async function (data) {
+    console.log('peer-files', data);
+    
+    const message = await Message.findOne({ _id: data.id }).exec();
+    message.files = data.files;
+    await message.save();
+    socket.broadcast.emit('peer-files', data);
+  })
 });
 
 app.use(bodyParser.json());

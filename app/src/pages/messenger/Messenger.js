@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Header, Conversations, Message, ChatOnline } from '../../components'
-import { Form, Input, Button, Upload, Empty } from 'antd'
+import { Form, Input, Button, Upload, Empty, message, Space, Tag, Typography } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 import { UseAuth, useSocket } from '../../hooks'
 import axios from '../../api'
@@ -13,10 +13,11 @@ const Messenger = () => {
   // const [searchConversation, setSeatchConversation] = useState([])
 
   const [currentChat, setcurrentChat] = useState(null)
-  const [messages, setMessages] = useState(null)
-  const [newMessage, setNewMessage] = useState(null)
+  const [messages, setMessages] = useState([])
+  const [newMessage, setNewMessage] = useState('')
   const scrollRef = useRef()
-  const [search, setSearch] = useState(null)
+  const [search, setSearch] = useState('')
+  const [files, setFiles] = useState([])
 
   const socket = useSocket()
 
@@ -30,7 +31,7 @@ const Messenger = () => {
         .get('/conversation/' + auth._id)
         .then((res) => {
           const conversations = res.data
-          if (search) {
+          if(search) {
             setConversations(
               conversations.filter((co) =>
                 co.members.find((m) => m.toLowerCase().includes(search)),
@@ -51,7 +52,7 @@ const Messenger = () => {
       try {
         const res = await axios.get('message/' + currentChat?._id)
         setMessages(res.data)
-      } catch (err) {
+      } catch(err) {
         console.log(err)
       }
     }
@@ -66,42 +67,95 @@ const Messenger = () => {
     }
     try {
       const res = await axios.post('/message/newMessage', message)
-      setMessages([...messages, res.data])
+      socket.emit('peer-msg', res.data)
+      if(files.length > 0) {
+        socket.emit('peer-files', { id: res.data._id, files })
+      }
+      console.log({ message: { ...res.data, files } })
+
+      setMessages([...messages, { ...res.data, files }])
       setNewMessage('')
-      socket.emit('peer-msg', message)
-    } catch (err) {
+      setFiles([])
+    } catch(err) {
       console.log(err)
     }
   }
- 
+
 
   useEffect(() => {
-    socket.on('peer-msg', function (data) {
+    socket.on('peer-msg', (data) => {
       console.log('on peer-msg', data);
+      setMessages([...messages, data])
     })
 
-    return socket.off('peer-msg')
-  }, [])
+    socket.on('peer-files', function (data) {
+      console.log('on peer-files', data);
+      setMessages(messages.map(m => {
+        if(m._id === data.id) {
+          m.files = data.files
+        }
+        return m
+      }))
+    })
 
-  // useEffect(() => {
-  //   const getConversations = async () => {
-  //     await axios
-  //       .get('/conversation/' + auth._id)
-  //       .then((res) => {
-  //         setConversations(res.data)
-  //       })
-  //       .catch((error) => console.log(error))
-  //   }
-  //   if (search === null) {
-  //     getConversations()
-  //     return
-  //   }
-  //   setConversations(
-  //     conversations.filter((co) =>
-  //       co.members.find((m) => m.toLowerCase().includes(search)),
-  //     ),
-  //   )
-  // }, [ search, auth._id])
+    return () => {
+      socket.off('peer-msg')
+      socket.off('peer-files')
+    }
+  }, [messages])
+
+  const readFile = (file) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsArrayBuffer(file);
+      reader.onload = (e) => resolve(e.target.result);
+      reader.onerror = (error) => reject(error);
+    }
+    );
+
+  const props = {
+    name: 'file',
+    customRequest({ file, onSuccess }) {
+      setTimeout(() => {
+        onSuccess("ok");
+      }, 0);
+    },
+    beforeUpload(file, fileList) {
+      if (files.length > 2) {
+        message.warning('Too much file!')
+        return false
+      }
+    },
+    showUploadList: false,
+    onChange(info) {
+      if(info.file.status === 'done') {
+        const convertFile = async () => {
+          const src = await readFile(info.file.originFileObj)
+          if(src.byteLength > 1e7) {
+            message.warning(`${info.file.name} file is grater than 10MB!`)
+            return
+          }
+          const file = {
+            uid: info.file.uid,
+            name: info.file.name,
+            type: info.file.type,
+            src: src,
+          }
+          console.log(file);
+          setFiles([...files, file])
+          message.success(`${info.file.name} file uploaded successfully`);
+        }
+
+        convertFile()
+      } else if(info.file.status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    }
+  };
+
+  const handleFileClose = (uid) => {
+    setFiles(files.filter(f => f.uid !== uid))
+  }
 
   return (
     <>
@@ -137,9 +191,8 @@ const Messenger = () => {
               <>
                 <div className="chatBoxTop">
                   {messages.map((m) => (
-                    <div ref={scrollRef}>
+                    <div key={m._id} ref={scrollRef}>
                       <Message
-                        key={m._id}
                         message={m}
                         own={m.sender === auth.username}
                       />
@@ -154,20 +207,32 @@ const Messenger = () => {
                     onFinish={onFinish}
                   >
                     <Form.Item>
-                      <Upload>
-                        <Button icon={<UploadOutlined />}> </Button>
+                      <Upload {...props}>
+                        <Button><UploadOutlined /></Button>
                       </Upload>
                     </Form.Item>
                     <Form.Item>
-                      <Input
-                        className="chatMessageInput"
-                        placeholder="write something..."
-                        onChange={(e) => setNewMessage(e.target.value)}
-                        value={newMessage}
-                      />
+                      <div className='chat-input-container'>
+                        <Space className='files-container' direction='horizontal'>
+                          {files.map(file => (
+                            <span key={file.uid}>
+                              <Tag className='file-item' color='blue' closable onClose={() => handleFileClose(file.uid)}>
+                                <Typography.Text style={{ maxWidth: '100px'}} ellipsis>{file.name}</Typography.Text>
+                              </Tag>
+                            </span>
+                          ))}
+                        </Space>
+                        <Input
+                          bordered={false}
+                          className="chatMessageInput"
+                          placeholder="write something..."
+                          onChange={(e) => setNewMessage(e.target.value)}
+                          value={newMessage}
+                        />
+                      </div>
                     </Form.Item>
                     <Form.Item>
-                      <Button htmlType="submit" type="primary">
+                      <Button disabled={!newMessage && files.lenth === 0} htmlType="submit" type="primary">
                         Send
                       </Button>
                     </Form.Item>

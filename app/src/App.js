@@ -3,17 +3,20 @@ import { Route, BrowserRouter, Routes, Outlet } from 'react-router-dom'
 import { Messenger, Home } from './pages/messenger'
 import { Login, Register, RequiredAuth } from './pages/auth'
 import io from 'socket.io-client'
-import P2P from 'socket.io-p2p'
 import SocketContext from './contexts/socket'
 function App() {
   const [socket, setSocket] = useState(null)
 
   useEffect(() => {
-    const newSocket = io('http://localhost:8080')
-    const p2p = new P2P(newSocket)
-    setSocket(p2p)
+    const connectSocket = async () => {
+      const newSocket = io('http://localhost:8080')
+      setSocket(newSocket)
+    }
 
-    // return () => socket.close()
+    connectSocket()
+    return () => {
+      socket?.close()
+    }
   }, [])
 
   return (

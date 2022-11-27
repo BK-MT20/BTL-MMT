@@ -18,10 +18,7 @@ const RequiredAuth = () => {
         if (error.response.status === 401) {
           navigate('/login')
         }
-        if (error.response.data) {
-          return Promise.reject(error.response.data)
-        }
-        return Promise.reject(error.message)
+        return Promise.reject(error)
       },
     )
   }, [])
