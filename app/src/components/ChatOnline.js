@@ -1,16 +1,24 @@
 import React from 'react'
 import { Avatar, Badge } from 'antd'
+import { UseAuth } from '../hooks'
 
 const ChatOnline = () => {
+  const { auth } = UseAuth()
+  // console.log(auth)
   return (
     <div className="chatOnlineFriend">
-      <Badge color="green" size="large" dot>
+      <Badge
+        style={{ width: '20px', height: '20px' }}
+        color="green"
+        size="large"
+        dot
+      >
         <Avatar
           size="large"
-          src="https://images.pexels.com/photos/3686769/pexels-photo-3686769.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+          src="https://ss-images.saostar.vn/wp700/pc/1613810558698/Facebook-Avatar_3.png"
         />
       </Badge>
-      <span className="chatOnlineName">Hoang Phiem</span>
+      <span className="chatOnlineName">{auth?.username}</span>
     </div>
   )
 }

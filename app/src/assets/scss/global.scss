@@ -78,16 +78,23 @@
       flex-direction: column;
       justify-content: space-between;
       position: relative;
+      border-left: 3px solid rgb(245, 243, 243);
+      border-right: 3px solid rgb(245, 243, 243);
+
       .empty {
         margin-top: 150px;
       }
       .chatBoxTop {
         height: 100%;
+        padding-left: 20px;
         overflow-y: scroll;
-        padding-right: 10px;
+        padding-right: 20px;
       }
       .chatBoxBottom {
         margin-top: 5px;
+        padding-left: 20px;
+        padding-right: 20px;
+
         .chatBoxBottomForm {
           display: flex;
           align-items: center;
@@ -207,13 +214,18 @@
 
 .chatOnlineFriend {
   display: flex;
+  flex-direction: column;
   align-items: center;
   font-weight: 500;
+  .ant-avatar-lg {
+    width: 150px;
+    height: 150px;
+  }
   cursor: pointer;
   margin-top: 10px;
   span {
-    margin-left: 10px;
-    font-size: 18px;
+    // margin-left: 10px;
+    font-size: 30px;
   }
 }
 
@@ -243,10 +255,15 @@
 }
 .chat-input-container {
   margin: 0 10px;
-  border: solid 1px rgba(0,0,0,0.3);
+  border: solid 1px rgba(0, 0, 0, 0.3);
   border-radius: 6px;
   .files-container {
     padding: 4px 10px;
     overflow: hidden;
   }
 }
+
+// .ant-badge-status-green {
+//   width: 20px;
+//   height: 20px;
+// }
