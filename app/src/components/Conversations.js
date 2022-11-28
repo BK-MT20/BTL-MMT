@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import React from 'react'
 import axios from '../api'
 
-const Conversations = ({ conversation, currentUser }) => {
+const Conversations = ({ active, conversation, currentUser }) => {
   const [user, setUser] = useState(null)
   // console.log(conversation)
   useEffect(() => {
@@ -21,7 +21,7 @@ const Conversations = ({ conversation, currentUser }) => {
   }, [currentUser, conversation])
 
   return (
-    <div className="conversation">
+    <div className={`conversation ${active ? 'chat-item-active' : ''}`}>
       <img className="conversationImg" src={user?.avartar} alt="" />
       <span className="conversationName">{user?.username}</span>
     </div>

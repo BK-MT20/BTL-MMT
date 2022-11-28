@@ -41,7 +41,7 @@ const Messenger = () => {
         .get('/conversation/' + auth._id)
         .then((res) => {
           const conversations = res.data
-          if (search) {
+          if(search) {
             setConversations(
               conversations.filter((co) =>
                 co.members.find((m) => m.toLowerCase().includes(search)),
@@ -62,7 +62,7 @@ const Messenger = () => {
       try {
         const res = await axios.get('message/' + currentChat?._id)
         setMessages(res.data)
-      } catch (err) {
+      } catch(err) {
         console.log(err)
       }
     }
@@ -78,7 +78,7 @@ const Messenger = () => {
     try {
       const res = await axios.post('/message/newMessage', message)
       socket.emit('peer-msg', res.data)
-      if (files.length > 0) {
+      if(files.length > 0) {
         socket.emit('peer-files', { id: res.data._id, files })
       }
       console.log({ message: { ...res.data, files } })
@@ -86,7 +86,7 @@ const Messenger = () => {
       setMessages([...messages, { ...res.data, files }])
       setNewMessage('')
       setFiles([])
-    } catch (err) {
+    } catch(err) {
       console.log(err)
     }
   }
@@ -97,11 +97,11 @@ const Messenger = () => {
       setMessages([...messages, data])
     })
 
-    socket.on('peer-files', function(data) {
+    socket.on('peer-files', function (data) {
       console.log('on peer-files', data)
       setMessages(
         messages.map((m) => {
-          if (m._id === data.id) {
+          if(m._id === data.id) {
             m.files = data.files
           }
           return m
@@ -131,17 +131,17 @@ const Messenger = () => {
       }, 0)
     },
     beforeUpload(file, fileList) {
-      if (files.length > 2) {
+      if(files.length > 2) {
         message.warning('Too much file!')
         return false
       }
     },
     showUploadList: false,
     onChange(info) {
-      if (info.file.status === 'done') {
+      if(info.file.status === 'done') {
         const convertFile = async () => {
           const src = await readFile(info.file.originFileObj)
-          if (src.byteLength > 1e7) {
+          if(src.byteLength > 1e7) {
             message.warning(`${info.file.name} file is grater than 10MB!`)
             return
           }
@@ -157,7 +157,7 @@ const Messenger = () => {
         }
 
         convertFile()
-      } else if (info.file.status === 'error') {
+      } else if(info.file.status === 'error') {
         message.error(`${info.file.name} file upload failed.`)
       }
     },
@@ -187,10 +187,10 @@ const Messenger = () => {
                 key={c._id}
                 onClick={() => {
                   setcurrentChat(c)
-                  // console.log(currentChat)
+                  console.log(currentChat, c)
                 }}
               >
-                <Conversations conversation={c} currentUser={auth._id} />
+                <Conversations active={currentChat?._id === c._id} conversation={c} currentUser={auth._id} />
               </div>
             ))}
           </div>
