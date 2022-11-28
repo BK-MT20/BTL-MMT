@@ -21,6 +21,15 @@ const RequiredAuth = () => {
         return Promise.reject(error)
       },
     )
+  
+    const getMessages = async () => {
+      try {
+        const res = await axios.get('message/asdfa')
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    getMessages()
   }, [])
   return (
     <div>

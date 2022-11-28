@@ -45,7 +45,7 @@ const Message = ({ message, own }) => {
               <FileOutlined /> {file.name}
             </p>
           </div>
-          <div className="messageBottom">{message.createdAt}</div>
+          <div className="messageBottom">{Moment(message.createdAt).format('MMMM Do , h:mm')}</div>
         </div>
       ))}
       {message.text && (

@@ -2,10 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { MessageOutlined, LogoutOutlined } from '@ant-design/icons'
 import { Avatar, Badge, Dropdown, Divider, Space, Menu } from 'antd'
-import { UseLogout } from '../hooks'
+import { UseAuth, UseLogout } from '../hooks'
 
 const Header = () => {
   const logout = UseLogout()
+  const { auth} = UseAuth()
   const items = [
     {
       key: '0',
@@ -14,7 +15,7 @@ const Header = () => {
           <div>
             <p>
               <span style={{ fontWeight: 'bold', paddingRight: '5px' }}>
-                Logged in as: Hoang Phiem
+                Logged in as: {auth?.username}
               </span>
             </p>
           </div>
